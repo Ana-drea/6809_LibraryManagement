@@ -1,0 +1,72 @@
+﻿@model LibraryManagement.ViewModels.BookViewModel
+
+<form method="post" asp-controller="book" asp-action="add">
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label asp-for="Book.Title" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <input type="text" asp-for="Book.Title" class="form-control" />
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Book.Title"></span>
+        </div>
+    </div>
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label asp-for="Book.AuthorId" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <select asp-for="Book.AuthorId" class="form-control">
+                <option>@Model.Book.Author.Name</option>
+                @if (Model.Authors != null && Model.Authors.Any())
+                {
+                    @foreach (var aut in Model.Authors)
+                    {
+                        <option value="@aut.AuthorId">
+                            @aut.Name
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Book.Author.Name"></span>
+        </div>
+    </div>
+
+    <div class="text-danger" asp-validation-summary="All"></div>
+    <div class="row mb-3">
+        <div class="col-2">
+            <label asp-for="Book.LibraryBranchId" class="col-form-label"></label>
+        </div>
+        <div class="col-6">
+            <select asp-for="Book.LibraryBranchId" class="form-control">
+                <option>@Model.Book.Branch.BranchName</option>
+                @if (Model.Branches != null && Model.Branches.Any())
+                {
+                    @foreach (var bra in Model.Branches)
+                    {
+                        <option value="@bra.LibraryBranchId">@bra.BranchName</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col">
+            <span class="text-danger" asp-validation-for="Book.Branch.BranchName"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2">
+            <input type="submit" class="btn btn-primary" value="Save" />
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+
+</form>

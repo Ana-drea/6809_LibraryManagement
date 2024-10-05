@@ -1,0 +1,37 @@
+﻿@model List<LibraryManagement.ViewModels.BookViewModel>
+
+<div class="tab-content">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <!-- Hidden Id column -->
+                    <th style="display: none;"></th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Library Branch</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var bookView in Model)
+                {
+                    <tr>
+                        <!-- Hide this cell but keep the data -->
+                        <td style="display: none;">@bookView.Book.BookId</td>
+                        <td>@bookView.Book.Title</td>
+                        <td>@bookView.Book.Author.Name</td>
+                        <td>@bookView.Book.Branch.BranchName</td>
+                        <td><a asp-controller="Book" asp-action="Edit" asp-route-id="@bookView.Book.BookId">Edit</a></td>
+                        <td><a asp-controller="Book" asp-action="Delete" asp-route-id="@bookView.Book.BookId">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <a class="btn btn-primary" asp-controller="Author" asp-action="add">Add Author</a>
+    <a class="btn btn-primary" asp-controller="LibraryBranch" asp-action="add">Add Library Branch</a>
+    <a class="btn btn-primary" asp-controller="Book" asp-action="add">Add Book</a>
+</div>

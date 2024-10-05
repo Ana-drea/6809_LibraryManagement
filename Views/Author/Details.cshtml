@@ -1,0 +1,32 @@
+﻿@model List<LibraryManagement.Models.Author>
+
+<div class="tab-content">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <!-- Hidden Id column -->
+                    <th style="display: none;"></th>
+                    <th>Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var author in Model)
+                {
+                    <tr>
+                        <!-- Hide this cell but keep the data -->
+                        <td style="display: none;">@author.AuthorId</td>
+                        <td>@author.Name</td>
+                        <td><a asp-controller="Author" asp-action="Edit" asp-route-id="@author.AuthorId">Edit</a></td>
+                        <td><a asp-controller="Author" asp-action="Delete" asp-route-id="@author.AuthorId">Delete</a></td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <a class="btn btn-primary" asp-controller="Author" asp-action="add">Add</a>
+</div>

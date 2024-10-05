@@ -1,0 +1,31 @@
+﻿@model List<LibraryManagement.Models.LibraryBranch>
+
+<div class="tab-content">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <!-- Hidden Id column -->
+                    <th style="display: none;"></th>
+                    <th>Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var branch in Model)
+                {
+                    <tr>
+                        <!-- Hide this cell but keep the data -->
+                        <td style="display: none;">@branch.LibraryBranchId</td>
+                        <td>@branch.BranchName</td>
+                        <td><a asp-controller="LibraryBranch" asp-action="Edit" asp-route-id="@branch.LibraryBranchId">Edit</a></td>
+                        <td><a asp-controller="LibraryBranch" asp-action="Delete" asp-route-id="@branch.LibraryBranchId">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <a class="btn btn-primary" asp-controller="LibraryBranch" asp-action="add">Add</a>
+</div>

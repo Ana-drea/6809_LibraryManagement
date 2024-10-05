@@ -1,0 +1,31 @@
+﻿@model List<LibraryManagement.Models.Customer>
+
+<div class="tab-content">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <!-- Hidden Id column -->
+                    <th style="display: none;"></th>
+                    <th>Name</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var customer in Model)
+                {
+                    <tr>
+                        <!-- Hide this cell but keep the data -->
+                        <td style="display: none;">@customer.CustomerId</td>
+                        <td>@customer.Name</td>
+                        <td><a asp-controller="Customer" asp-action="Edit" asp-route-id="@customer.CustomerId">Edit</a></td>
+                        <td><a asp-controller="Customer" asp-action="Delete" asp-route-id="@customer.CustomerId">Delete</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <a class="btn btn-primary" asp-controller="Customer" asp-action="add">Add</a>
+</div>
