@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LibraryManagement.Models;
 using LibraryManagement.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagement.Controllers
 {
+    [Authorize]
     public class LibraryBranchController : Controller
     {
         private readonly AppDbContext _context;

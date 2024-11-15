@@ -4,9 +4,11 @@ using LibraryManagement.Models;
 using LibraryManagement.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagement.Controllers
 {
+    [Authorize]
     public class BookController : Controller
     {
         private readonly AppDbContext _context;

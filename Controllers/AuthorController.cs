@@ -2,9 +2,11 @@
 using LibraryManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryManagement.Controllers
 {
+    [Authorize]
     public class AuthorController : Controller
     {
         private readonly AppDbContext _context;
