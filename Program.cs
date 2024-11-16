@@ -4,11 +4,40 @@ using Microsoft.EntityFrameworkCore;
 using LibraryManagement.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+// Add Swagger services
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v1",
+        Title = "API Documentation",
+        Description = "Detailed API documentation for your ASP.NET Core application",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "API Support",
+            Email = "support@example.com",
+            Url = new Uri("https://example.com/contact")
+        },
+        License = new Microsoft.OpenApi.Models.OpenApiLicense
+        {
+            Name = "Use under XYZ",
+            Url = new Uri("https://example.com/license")
+        }
+    });
+
+    // Add XML comments (optional but recommended)
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
+
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -17,6 +46,7 @@ builder.Services.AddDbContext<AccountContext>(options =>
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AccountContext>();
 builder.Services.AddRazorPages();
+builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -69,6 +99,17 @@ builder.Services.AddAuthentication()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+        c.RoutePrefix = string.Empty; // To serve Swagger UI at the app's root (e.g., http://localhost:5000/)
+    });
+}
+
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -116,6 +157,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapControllers(); // 确保控制器已映射
 
 app.MapRazorPages();
 app.MapControllerRoute(
